@@ -24,8 +24,9 @@ employers = []
 vacancies = []
 
 for company in companies:
+    print(company["name"])
     employers.append(HH.load_employer_data(company["id"]))
-    # vacancies.extend(HH.load_vacancies(company["id"]))
+    vacancies.extend(HH.load_vacancies(company["id"]))
 
 
 db = DBUpdater("hh_parser", params)

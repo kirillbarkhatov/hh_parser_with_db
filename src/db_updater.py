@@ -20,10 +20,22 @@ class DBUpdater():
         for employer in employers:
             cur.execute(
                 """
-                INSERT INTO employers (employer_id, company_name, accredited_it_employer, site_url, description)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO employers (employer_id, company_name, open_vacancies, accredited_it_employer, site_url, description)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 """,
-                (int(employer["id"]), employer["name"], bool(employer["accredited_it_employer"]), employer["site_url"], employer["description"])
+                (int(employer["id"]), employer["name"], int(employer["open_vacancies"]), bool(employer["accredited_it_employer"]), employer["site_url"], employer["description"])
             )
+
+        for vacancy in vacancies:
+            try:
+                cur.execute(
+                    """
+                    INSERT INTO vacancies (vacancy_id, employer_id, vacancy_name)
+                    VALUES (%s, %s, %s)
+                    """,
+                    (int(vacancy["id"]), vacancy["employer"]["id"], vacancy["name"])
+                )
+            except psycopg2.errors.UniqueViolation:
+                pass
 
         conn.close()

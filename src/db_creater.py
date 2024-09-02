@@ -35,6 +35,7 @@ class DBCreater():
             CREATE TABLE employers(
             employer_id INT PRIMARY KEY,
             company_name VARCHAR,
+            open_vacancies INT,
             accredited_it_employer BOOL,
             site_url VARCHAR,
             description TEXT
@@ -47,10 +48,7 @@ class DBCreater():
             CREATE TABLE vacancies(
             vacancy_id INT PRIMARY KEY,
             employer_id INT,
-            company_name VARCHAR,
-            accredited_it_employer BOOL,
-            site_url VARCHAR,
-            description TEXT,
+            vacancy_name VARCHAR,
             CONSTRAINT fk_vacancies_employer FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
             )
             """

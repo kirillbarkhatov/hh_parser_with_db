@@ -18,27 +18,36 @@ class HH:
         response = requests.get(url, headers=headers, params=api_params)
 
         if response.status_code != 200:
-            raise requests.RequestException
+            print()
+            print(f"---{api_method} --- {api_params} --- не выполнен")
+            print(response.status_code)
         return response
 
     @classmethod
     def load_vacancies(cls, employer_id: str) -> list:
         """Метод для получения вакансий по ID работодателя"""
 
-        params = {"employer_id": employer_id, "page": 0, "per_page": 100, "area": 113}
+        params = {"employer_id": employer_id, "page": 0, "per_page": 100, "area": 2}
         vacancies = []
 
         print("Загрузка данных ... ", end="")
         # while params.get('page') != 20:
         while params.get("page") != 20:
             print("#", end="")
-            vacancies_page = cls.__connection_to_api("vacancies", params).json()["items"]
-            # print(type(vacancies_page), len(vacancies_page))
-            vacancies.extend(vacancies_page)
-            # print(type(vacancies), len(vacancies))
+
+            try:
+                vacancies_page = cls.__connection_to_api("vacancies", params).json()["items"]
+                if not vacancies_page:
+                    break
+                # print(type(vacancies_page), len(vacancies_page))
+                vacancies.extend(vacancies_page)
+                # print(type(vacancies), len(vacancies))
+            except KeyError:
+                pass
+
             params["page"] += 1
 
-        # print()
+        print()
         return vacancies
 
     @classmethod
