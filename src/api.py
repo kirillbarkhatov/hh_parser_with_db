@@ -23,7 +23,7 @@ class HH:
 
     @classmethod
     def load_vacancies(cls, employer_id: str) -> list:
-        """Метод для получения вакансий по ключевому слову"""
+        """Метод для получения вакансий по ID работодателя"""
 
         params = {"employer_id": employer_id, "page": 0, "per_page": 100, "area": 113}
         vacancies = []
@@ -43,7 +43,7 @@ class HH:
 
     @classmethod
     def load_employer_data(cls, employer_id: str) -> dict:
-        """Метод для получения вакансий по ключевому слову"""
+        """Метод для получения данных о работодателях"""
 
         params = {}
 
