@@ -37,7 +37,7 @@ class DBCreater():
             company_name VARCHAR,
             accredited_it_employer BOOL,
             site_url VARCHAR,
-            description VARCHAR
+            description TEXT
             )
             """
         )
@@ -50,7 +50,7 @@ class DBCreater():
             company_name VARCHAR,
             accredited_it_employer BOOL,
             site_url VARCHAR,
-            description VARCHAR,
+            description TEXT,
             CONSTRAINT fk_vacancies_employer FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
             )
             """
