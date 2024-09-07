@@ -1,7 +1,7 @@
 import psycopg2
 
 
-class DBUpdater():
+class DBUpdater:
     """Класс для добавления данных в базу данных"""
 
     def __init__(self, db_name: str, params: dict) -> None:

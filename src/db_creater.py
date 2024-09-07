@@ -1,7 +1,7 @@
 import psycopg2
 
 
-class DBCreater():
+class DBCreater:
     """Класс для создания базы данных"""
 
     def __init__(self, db_name: str, params: dict) -> None:
