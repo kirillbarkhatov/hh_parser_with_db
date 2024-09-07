@@ -57,10 +57,24 @@ class DBManager:
     def get_avg_salary(self) -> Any:
         """Получает среднюю зарплату по вакансиям"""
 
-        query = """
-            SELECT employers.company_name, vacancy_name, salary_from, salary_to, url
+        query = """        
+            SELECT AVG (salary_from)
             FROM vacancies
-            JOIN employers USING(employer_id)
+            WHERE salary_to > 0
             """
 
-        return self.__query_execute(query)
+
+        # так более точно, но без использования AVG в запросе
+        # salary_dict = self.__query_execute(query)
+        # salary_list = []
+        #
+        # for salary in salary_dict:
+        #     if salary["salary_from"] + salary["salary_to"] == 0:
+        #         continue
+        #     elif salary["salary_from"] + salary["salary_to"] > max(salary["salary_from"], salary["salary_to"]):
+        #         salary_list.append((salary["salary_from"] + salary["salary_to"]) / 2)
+        #     else:
+        #         salary_list.append((salary["salary_from"] + salary["salary_to"]))
+        # return round(sum(salary_list) / len(salary_list), 2)
+
+        return round(self.__query_execute(query)[0]['avg'], 2)
