@@ -56,7 +56,7 @@ class HH:
 
         params = {}
 
-        print("Загрузка данных ... ")
+        # print("Загрузка данных ... ")
 
         employer_data = cls.__connection_to_api(f"employers/{employer_id}", params).json()
 

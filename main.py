@@ -5,6 +5,7 @@ from src.db_manager import DBManager
 import json
 from src.config import config
 from src.utils import read_json
+from src.ui import main_ui
 
 # vacancies = HH.load_vacancies("740")
 # employer = HH.load_employer_data("740")
@@ -33,5 +34,7 @@ params = config()
 # db = DBUpdater("hh_parser", params)
 # db.insert_data(employers, vacancies)
 
-db = DBManager("hh_parser", params)
-print(db.get_vacancies_with_keyword("Продавец"))
+# db = DBManager("hh_parser", params)
+# print(db.get_vacancies_with_keyword("Продавец"))
+
+main_ui()
