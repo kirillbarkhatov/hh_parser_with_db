@@ -35,10 +35,32 @@ class DBManager:
         """Получает список всех компаний и количество вакансий у каждой компании"""
 
         query = """
-            SELECT employers.company_name, COUNT(*)
+            SELECT employers.company_name, COUNT(*) AS vacancies_count
             FROM vacancies
             JOIN employers USING(employer_id)
             GROUP BY employers.company_name
+            """
+
+        return self.__query_execute(query)
+
+    def get_all_vacancies(self) -> Any:
+        """Получает список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию"""
+
+        query = """
+            SELECT employers.company_name, vacancy_name, salary_from, salary_to, url
+            FROM vacancies
+            JOIN employers USING(employer_id)
+            """
+
+        return self.__query_execute(query)
+
+    def get_avg_salary(self) -> Any:
+        """Получает среднюю зарплату по вакансиям"""
+
+        query = """
+            SELECT employers.company_name, vacancy_name, salary_from, salary_to, url
+            FROM vacancies
+            JOIN employers USING(employer_id)
             """
 
         return self.__query_execute(query)
