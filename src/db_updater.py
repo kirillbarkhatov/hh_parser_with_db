@@ -28,12 +28,19 @@ class DBUpdater():
 
         for vacancy in vacancies:
             try:
+                if not vacancy["salary"]:
+                    salary_from = 0
+                    salary_to = 0
+                else:
+                    salary_from = vacancy["salary"]["from"] if vacancy["salary"]["from"] else 0
+                    salary_to = vacancy["salary"]["to"] if vacancy["salary"]["to"] else 0
+
                 cur.execute(
                     """
-                    INSERT INTO vacancies (vacancy_id, employer_id, vacancy_name)
-                    VALUES (%s, %s, %s)
+                    INSERT INTO vacancies (vacancy_id, employer_id, vacancy_name, salary_from, salary_to, url)
+                    VALUES (%s, %s, %s, %s, %s, %s)
                     """,
-                    (int(vacancy["id"]), vacancy["employer"]["id"], vacancy["name"])
+                    (int(vacancy["id"]), vacancy["employer"]["id"], vacancy["name"], salary_from, salary_to, vacancy["alternate_url"])
                 )
             except psycopg2.errors.UniqueViolation:
                 pass

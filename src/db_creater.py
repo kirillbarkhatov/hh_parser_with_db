@@ -49,6 +49,9 @@ class DBCreater():
             vacancy_id INT PRIMARY KEY,
             employer_id INT,
             vacancy_name VARCHAR,
+            salary_from INT,
+            salary_to INT,
+            url VARCHAR,
             CONSTRAINT fk_vacancies_employer FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
             )
             """
