@@ -1,4 +1,4 @@
-from typing import Any, Callable
+from typing import Any
 
 import psycopg2
 
@@ -44,7 +44,9 @@ class DBManager:
         return self.__query_execute(query)
 
     def get_all_vacancies(self) -> Any:
-        """Получает список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию"""
+        """Получает список всех вакансий с указанием названия компании,
+        названия вакансии и зарплаты и ссылки на вакансию
+        """
 
         query = """
             SELECT employers.company_name, vacancy_name, salary_from, salary_to, url
@@ -57,12 +59,11 @@ class DBManager:
     def get_avg_salary(self) -> Any:
         """Получает среднюю зарплату по вакансиям"""
 
-        query = """        
+        query = """
             SELECT AVG (salary_from)
             FROM vacancies
             WHERE salary_to > 0
             """
-
 
         # так более точно, но без использования AVG в запросе
         # salary_dict = self.__query_execute(query)
@@ -77,7 +78,7 @@ class DBManager:
         #         salary_list.append((salary["salary_from"] + salary["salary_to"]))
         # return round(sum(salary_list) / len(salary_list), 2)
 
-        return round(self.__query_execute(query)[0]['avg'], 2)
+        return round(self.__query_execute(query)[0]["avg"], 2)
 
     def get_vacancies_with_higher_salary(self) -> Any:
         """Получает список всех вакансий, у которых зарплата выше средней по всем вакансиям"""

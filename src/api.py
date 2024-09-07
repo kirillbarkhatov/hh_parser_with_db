@@ -2,6 +2,7 @@ from typing import Any
 
 import requests
 
+
 class HH:
     """
     Класс для работы с API HeadHunter
@@ -51,10 +52,10 @@ class HH:
         return vacancies
 
     @classmethod
-    def load_employer_data(cls, employer_id: str) -> dict:
+    def load_employer_data(cls, employer_id: str) -> Any:
         """Метод для получения данных о работодателях"""
 
-        params = {}
+        params: dict = {}
 
         # print("Загрузка данных ... ")
 

@@ -1,14 +1,11 @@
-from src.api import HH
-from src.db_creater import DBCreater
-from src.db_updater import DBUpdater
-from src.db_manager import DBManager
-import json
-from src.config import config
-from src.utils import read_json
 import psycopg2
-import re
 
-
+from src.api import HH
+from src.config import config
+from src.db_creater import DBCreater
+from src.db_manager import DBManager
+from src.db_updater import DBUpdater
+from src.utils import read_json
 
 
 def main_ui() -> None:
@@ -22,7 +19,8 @@ def main_ui() -> None:
     if check_db(db_name, params):
         print("База данных существует и содержит информацию о вакансиях в следующих компаниях:")
         print_db_data(db_name, params)
-        answer = input("Хотите пересоздать базу и загрузить актуальные данные о компаниях и вакансиях с сайта hh.ru? Введите Да или ничего не вводите: ")
+        print("Хотите пересоздать базу и загрузить актуальные данные о компаниях и вакансиях с сайта hh.ru?")
+        answer = input("Введите Да или ничего не вводите: ")
         if answer.lower() == "да":
             create_db(db_name, params)
             print_db_data(db_name, params)
@@ -62,9 +60,12 @@ def main_ui() -> None:
             case _:
                 continue
 
-        stop_word = input("Введите слово СТОП, чтобы завершить работу с программой или ничего не вводите, чтобы продолжить: ")
+        stop_word = input(
+            "Введите слово СТОП, чтобы завершить работу с программой или ничего не вводите, чтобы продолжить: "
+        )
         if stop_word.lower() == "стоп":
             break
+
 
 def check_db(db_name: str, params: dict) -> bool:
     """Проверка наличия базы данных"""
@@ -100,8 +101,8 @@ def create_db(db_name: str, params: dict) -> None:
     print()
     print("Данные успешно загружены")
 
-    db = DBUpdater(db_name, params)
-    db.insert_data(employers, vacancies)
+    db_updater = DBUpdater(db_name, params)
+    db_updater.insert_data(employers, vacancies)
 
     print("Данные успешно внесены в БД")
 
@@ -118,10 +119,10 @@ def print_db_data(db_name: str, params: dict) -> None:
     print()
 
 
-def print_vacancies(vacancies) -> None:
+def print_vacancies(vacancies: list) -> None:
     """Вывод данных о вакансиях"""
 
-    print("Название компании  Название вакансии                                     Зарплата ОТ   Зарплата ДО   Ссылка на вакансию")
+    print("Название компании  Название вакансии", " " * 35, "Зарплата ОТ   Зарплата ДО   Ссылка на вакансию")
     for i in range(len(vacancies)):
         vacancy = vacancies[i]
         company = vacancy["company_name"]
@@ -129,9 +130,11 @@ def print_vacancies(vacancies) -> None:
         salary_from = "Не указана" if vacancy["salary_from"] == 0 else vacancy["salary_from"]
         salary_to = "Не указана" if vacancy["salary_to"] == 0 else vacancy["salary_to"]
         url = vacancy["url"]
-        print(f"{company:<15}", "  ", f"{name[0:50]:<50}", "  ", f"{str(salary_from):<13}", f"{str(salary_to):<13}", url)
+        print(
+            f"{company:<15}", "  ", f"{name[0:50]:<50}", "  ", f"{str(salary_from):<13}", f"{str(salary_to):<13}", url
+        )
         if (i + 1) % 10 == 0:
             print()
-            print("Название компании  Название вакансии                                     Зарплата ОТ   Зарплата ДО   Ссылка на вакансию")
+            print("Название компании  Название вакансии", " " * 35, "Зарплата ОТ   Зарплата ДО   Ссылка на вакансию")
             print()
     print()

@@ -18,7 +18,10 @@ class DBCreater:
         cur = conn.cursor()
 
         cur.execute(
-            f"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '{self.__db_name}' AND pid <> pg_backend_pid()")
+            f"""SELECT pg_terminate_backend(pid)
+            FROM pg_stat_activity
+            WHERE datname = '{self.__db_name}' AND pid <> pg_backend_pid()"""
+        )
         cur.execute(f"DROP DATABASE IF EXISTS {self.__db_name}")
         cur.execute(f"CREATE DATABASE {self.__db_name}")
         conn.close()
@@ -58,5 +61,3 @@ class DBCreater:
         )
 
         conn.close()
-
-
