@@ -34,4 +34,4 @@ params = config()
 # db.insert_data(employers, vacancies)
 
 db = DBManager("hh_parser", params)
-print(db.get_avg_salary())
+print(db.get_vacancies_with_keyword("Продавец"))

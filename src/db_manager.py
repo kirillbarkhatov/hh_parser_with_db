@@ -78,3 +78,31 @@ class DBManager:
         # return round(sum(salary_list) / len(salary_list), 2)
 
         return round(self.__query_execute(query)[0]['avg'], 2)
+
+    def get_vacancies_with_higher_salary(self) -> Any:
+        """Получает список всех вакансий, у которых зарплата выше средней по всем вакансиям"""
+
+        query = """
+            SELECT employers.company_name, vacancy_name, salary_from, salary_to, url
+            FROM vacancies
+            JOIN employers USING(employer_id)
+            WHERE salary_from > (
+            SELECT AVG (salary_from)
+            FROM vacancies
+            WHERE salary_to > 0
+            )
+            """
+
+        return self.__query_execute(query)
+
+    def get_vacancies_with_keyword(self, text: str) -> Any:
+        """Получает список всех вакансий, в названии которых содержатся переданные в метод слова, например python"""
+
+        query = f"""
+            SELECT employers.company_name, vacancy_name, salary_from, salary_to, url
+            FROM vacancies
+            JOIN employers USING(employer_id)
+            WHERE vacancy_name LIKE '%{text}%'
+            """
+
+        return self.__query_execute(query)
